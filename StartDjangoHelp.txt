@@ -1,0 +1,80 @@
+1. $ django-admin startproject mysite      -  создает папку mysite в текущей папке
+			mysite/
+				manage.py
+				mysite/
+					__init__.py
+					settings.py
+					urls.py
+					asgi.py
+					wsgi.py
+					
+2. $ python manage.py startapp polls       -  создает папку для апликейшн polls
+			polls/
+				__init__.py
+				admin.py
+				apps.py
+				models.py
+				tests.py
+				views.py
+				migrations/
+					__init__.py
+				
+3.  В папке polls/ создаем файл urls.py с ссодержимым :
+		
+		from django.urls import path
+		from . import views
+
+		urlpatterns = [
+			path('', views.index, name='index'),
+		]
+		
+4.  Редактируем файл mysite/polls/views.py
+
+		from django.http import HttpResponse
+
+		def index(request):
+			return HttpResponse("Hello ...")
+
+5.  Редактируем файл mysite/mysite/urls.py
+
+		urlpatterns = [
+			path('polls/', include('polls.urls')),
+			.
+			.
+			.
+		]
+
+6.  –едактируем файл mysite/mysite/settings.py
+
+		INSTALLED_APPS = [
+			'polls.apps.PollsConfig',
+			.
+			.
+			.
+		]
+
+7.  –едактируем файл mysite/polls/models.py          -    добавл€ем модели в виде класса
+
+		from django.db import models
+
+		# Create your models here.
+
+		class Question(models.Model):
+			question_text = models.CharField(max_length=200)
+			pub_date = models.DateTimeField('date published')
+
+8.  $ python manage.py makemigrations polls                       -  формируетс€ запрос на создание таблиц из моделей
+
+9.  $ python manage.py migratе                                    -  создаютс€ таблицы
+
+11. $ python manage.py createsuperuser                            -  создаем админа дл€ сайта
+
+10. –едактируем файл mysite/polls/admin.py                        -  регистрируем моденли дл€ доступа админу
+
+		from django.contrib import admin
+
+		from .models import Question
+
+		admin.site.register(Question)
+
+
